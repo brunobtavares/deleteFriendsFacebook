@@ -1,4 +1,4 @@
-## Uma ferramenta que possibilita selecionar e deletar os amigos indesejados do seu facebook de uma só vez!
+## Delete amigos indesejados do facebook de uma só vez!
 
 
 #MODO DE USAR:
