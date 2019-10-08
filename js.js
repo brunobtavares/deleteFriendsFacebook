@@ -3220,28 +3220,26 @@
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 
-var divID = document.getElementsByClassName('_42ft _4jy0 _55pi _2agf _4o_4 FriendRequestFriends friendButton enableFriendListFlyout _4jy3 _517h _51sy');
-
-var lista = [];
-$("._42ft").each(function() {
-  var userID = String($(this).data('profileid'));
-  if (userID.length == 15) {
-    if (!lista.includes(userID)) {
-      lista.push(userID);
-      console.log(userID);
-      // console.log("/ajax/profile/removefriendconfirm.php?uid=" + userID + "&unref=bd_friends_tab&floc=friends_tab");
+function getIDs() {
+  var divID = document.getElementsByClassName('_42ft _4jy0 _55pi _2agf _4o_4 FriendRequestFriends friendButton enableFriendListFlyout _4jy3 _517h _51sy');
+  var lista = [];
+  $("._42ft").each(function() {
+    var userID = String($(this).data('profileid'));
+    if (userID.length == 15) {
+      if (!lista.includes(userID)) {
+        lista.push(userID);
+        console.log(userID);
+        // console.log("/ajax/profile/removefriendconfirm.php?uid=" + userID + "&unref=bd_friends_tab&floc=friends_tab");
+      }
     }
-  }
-});
-console.log(lista.length + " selecionados");
-
-// fsl fwb fcb > a > data-gt
-//------------------------------------------------------------------------------
+  });
+  console.log(lista.length + " selecionados");
+}
 
 function remover() {
   var profileid = "100003959870046";
-  // var a = document.createElement('script');
-  // a.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + profileid + ",norefresh:true }).send();";
+  // var rm = document.createElement('script');
+  // rm.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + profileid + ",norefresh:true }).send();";
   // document.body.appendChild(a);
 }
 
@@ -3273,4 +3271,12 @@ function createView() {
   document.body.appendChild(div);
 }
 
+function addCheckBox() {
+  $(".fsl > a").each(function() {
+    var nome = $(this).html();
+    $('.fsl').html(nome + '<input type="checkbox" name="vehicle1" value="Bike">');
+  });
+}
+
 createView();
+addCheckBox();
