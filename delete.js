@@ -3349,8 +3349,10 @@ function addCheckBox() {
         id = atributos.engagement['eng_tid'];
         $(this).after('<div class="divDelete"><input onclick="countSelecionados()" type="checkbox" id="' + id + '" class="ckDelete"></div>');
       } else {
+        $(this).css('color', 'white');
+        $(this).css('background', 'red');
         var auxid = $(this).attr('ajaxify').replace("/ajax/friends/inactive/dialog?id=", "");
-        $(this).after('<div class="divDelete"><input onclick="countSelecionados()" type="checkbox" id="' + auxid + '" class="ckDelete" checked> <small style="background:red">Conta desativada</small> </div>');
+        $(this).after('<div class="divDelete"><input onclick="countSelecionados()" type="checkbox" id="' + auxid + '" class="ckDelete" checked> <small style="/*background:red*/">Conta desativada</small> </div>');
       }
     });
   } catch (e) {
