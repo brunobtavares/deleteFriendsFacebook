@@ -3237,7 +3237,6 @@ function getIDs() {
 }
 
 function remover() {
-
   $(".ckDelete").each(function() {
     if ($(this).is(':checked')) {
       var id = String($(this).attr('id'));
@@ -3245,58 +3244,70 @@ function remover() {
       var rm = document.createElement('script');
       rm.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + id + ",norefresh:true }).send();";
       document.body.appendChild(rm);
+      $(this).remove();
     }
   });
+  countSelecionados();
+}
+
+function countSelecionados() {
+  var qtdeSelecionados = 0;
+  $(".ckDelete").each(function() {
+    if ($(this).is(':checked')) {
+      qtdeSelecionados += 1;
+    }
+  });
+  document.getElementById('pid').innerHTML = qtdeSelecionados + " selecionados"
 }
 
 function createView() {
 
-  var mousePosition;
-  var offset = [0, 0];
-  var isDown = false;
+  /*
+   * Todas as partes comentadas desta função
+   * é a função que permite movimentar a div livremente
+   */
+
+  // var mousePosition;
+  // var offset = [0, 0];
+  // var isDown = false;
 
   var div = document.createElement('DIV');
-  div.innerHTML = '<small style="width: auto;position: absolute;top: -16px;left: 151px;cursor:pointer">mover</small>'
+  div.innerHTML = '<small title="FECHAR" onclick="location.reload();" style="width: auto;position: absolute;top: -18px;left: 183px;cursor:pointer;padding: 0.5%;color: red;font-weight: bolder;">X</small>'
   div.style.background = "#4267B2";
   div.style.display = "inline-block";
   div.style.padding = "2%";
   div.style.position = "absolute";
-  div.style.top = "397px";
-  div.style.lef = "372px";
+  div.style.top = "340px";
+  div.style.left = "940px";
   div.id = "divView";
 
-  div.addEventListener('mousedown', function(e) {
-    isDown = true;
-    offset = [
-      div.offsetLeft - e.clientX,
-      div.offsetTop - e.clientY
-    ];
-  }, true);
-
-  document.addEventListener('mouseup', function() {
-    isDown = false;
-  }, true);
-
-  document.addEventListener('mousemove', function(event) {
-    event.preventDefault();
-    if (isDown) {
-      mousePosition = {
-
-        x: event.clientX,
-        y: event.clientY
-
-      };
-      div.style.left = (mousePosition.x + offset[0]) + 'px';
-      div.style.top = (mousePosition.y + offset[1]) + 'px';
-    }
-  }, true);
+  // div.addEventListener('mousedown', function(e) {
+  //   isDown = true;
+  //   offset = [
+  //     div.offsetLeft - e.clientX,
+  //     div.offsetTop - e.clientY
+  //   ];
+  // }, true);
+  //
+  // document.addEventListener('mouseup', function() {
+  //   isDown = false;
+  // }, true);
+  //
+  // document.addEventListener('mousemove', function(event) {
+  //   event.preventDefault();
+  //   if (isDown) {
+  //     mousePosition = {
+  //
+  //       x: event.clientX,
+  //       y: event.clientY
+  //
+  //     };
+  //     div.style.left = (mousePosition.x + offset[0]) + 'px';
+  //     div.style.top = (mousePosition.y + offset[1]) + 'px';
+  //   }
+  // }, true);
 
   // ---------------------------------------------------------------------------
-
-  var qtdeAmigos;
-  $("._3c_ > ._3d0").each(function() {
-    qtdeAmigos = $(this).html();
-  });
 
   var p = document.createElement('P');
   p.id = "pid";
@@ -3304,7 +3315,6 @@ function createView() {
   p.style.fontFamily = "sans-serif";
   p.style.margin = "0";
   p.style.marginBottom = "5%";
-  p.innerHTML = "Total de amigos: " + qtdeAmigos;
 
   var btn = document.createElement('BUTTON');
   btn.style.fontFamily = "sans-serif";
@@ -3317,6 +3327,14 @@ function createView() {
   div.appendChild(btn);
 
   document.body.appendChild(div);
+
+  //Aparece na tela para o usuário
+  var $scrollingDiv = $("#divView");
+  $scrollingDiv
+    .stop()
+    .animate({
+      "marginTop": ($(window).scrollTop())
+    }, "slow");
 }
 
 function addCheckBox() {
@@ -3326,7 +3344,11 @@ function addCheckBox() {
         var atributos = JSON.parse($(this).attr("data-gt"));
         id = atributos.engagement['eng_tid'];
         // console.log(id);
-        $(this).after('<div><input type="checkbox" id="' + id + '" class="ckDelete"></div>');
+        $(this).after('<div><input onclick="countSelecionados()" type="checkbox" id="' + id + '" class="ckDelete"></div>');
+      } else {
+        var auxid = $(this).attr('ajaxify').replace("/ajax/friends/inactive/dialog?id=", "");
+        $(this).after('<div><input onclick="countSelecionados()" type="checkbox" id="' + auxid + '" class="ckDelete"> <small>Conta desativada</small> </div>');
+        console.log(auxid);
       }
     });
   } catch (e) {
@@ -3336,3 +3358,15 @@ function addCheckBox() {
 
 createView();
 addCheckBox();
+
+//Segue na tela
+$().ready(function() {
+  var $scrollingDiv = $("#divView");
+  $(window).scroll(function() {
+    $scrollingDiv
+      .stop()
+      .animate({
+        "marginTop": ($(window).scrollTop())
+      }, "slow");
+  });
+});
