@@ -3237,18 +3237,66 @@ function getIDs() {
 }
 
 function remover() {
-  var profileid = "100003959870046";
-  // var rm = document.createElement('script');
-  // rm.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + profileid + ",norefresh:true }).send();";
-  // document.body.appendChild(a);
+  //100022770581756
+  $(".ckDelete").each(function() {
+    if ($(this).is(':checked')) {
+      var id = String($(this).attr('id'));
+      console.log(id);
+      var rm = document.createElement('script');
+      rm.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + id + ",norefresh:true }).send();";
+      document.body.appendChild(rm);
+    }
+  });
 }
 
 function createView() {
+
+  var mousePosition;
+  var offset = [0, 0];
+  var isDown = false;
+
   var div = document.createElement('DIV');
+  div.innerHTML = '<small style="width: auto;position: absolute;top: -16px;left: 151px;cursor:pointer">mover</small>'
   div.style.background = "#4267B2";
   div.style.display = "inline-block";
-  div.style.padding = "1%";
+  div.style.padding = "2%";
+  div.style.position = "absolute";
+  div.style.top = "397px";
+  div.style.lef = "372px";
   div.id = "divView";
+
+  div.addEventListener('mousedown', function(e) {
+    isDown = true;
+    offset = [
+      div.offsetLeft - e.clientX,
+      div.offsetTop - e.clientY
+    ];
+  }, true);
+
+  document.addEventListener('mouseup', function() {
+    isDown = false;
+  }, true);
+
+  document.addEventListener('mousemove', function(event) {
+    event.preventDefault();
+    if (isDown) {
+      mousePosition = {
+
+        x: event.clientX,
+        y: event.clientY
+
+      };
+      div.style.left = (mousePosition.x + offset[0]) + 'px';
+      div.style.top = (mousePosition.y + offset[1]) + 'px';
+    }
+  }, true);
+
+  // ---------------------------------------------------------------------------
+
+  var qtdeAmigos;
+  $("._3c_ > ._3d0").each(function() {
+    qtdeAmigos = $(this).html();
+  });
 
   var p = document.createElement('P');
   p.id = "pid";
@@ -3256,7 +3304,7 @@ function createView() {
   p.style.fontFamily = "sans-serif";
   p.style.margin = "0";
   p.style.marginBottom = "5%";
-  p.innerHTML = "Total de amigos: 123";
+  p.innerHTML = "Total de amigos: " + qtdeAmigos;
 
   var btn = document.createElement('BUTTON');
   btn.style.fontFamily = "sans-serif";
@@ -3272,10 +3320,18 @@ function createView() {
 }
 
 function addCheckBox() {
-  $(".fsl > a").each(function() {
-    var nome = $(this).html();
-    $('.fsl').html(nome + '<input type="checkbox" name="vehicle1" value="Bike">');
-  });
+  try {
+    $(".fsl > a").each(function() {
+      if (typeof $(this).attr("data-gt") != "undefined") {
+        var atributos = JSON.parse($(this).attr("data-gt"));
+        id = atributos.engagement['eng_tid'];
+        // console.log(id);
+        $(this).after('<div><input type="checkbox" id="' + id + '" class="ckDelete"></div>');
+      }
+    });
+  } catch (e) {
+    console.log("fun addCheckBox => " + e);
+  }
 }
 
 createView();
