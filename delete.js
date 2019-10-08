@@ -3237,10 +3237,11 @@ function getIDs() {
 }
 
 function remover() {
+
   $(".ckDelete").each(function() {
     if ($(this).is(':checked')) {
       var id = String($(this).attr('id'));
-      console.log(id);
+      console.log("Removido => " + id);
       var rm = document.createElement('script');
       rm.innerHTML = "new AsyncRequest().setURI('/ajax/profile/removefriendconfirm.php').setData({ uid: " + id + ",norefresh:true }).send();";
       document.body.appendChild(rm);
@@ -3272,10 +3273,10 @@ function createView() {
   // var isDown = false;
 
   var div = document.createElement('DIV');
-  div.innerHTML = '<small title="FECHAR" onclick="location.reload();" style="width: auto;position: absolute;top: -18px;left: 183px;cursor:pointer;padding: 0.5%;color: red;font-weight: bolder;">X</small>'
+  div.innerHTML = '<small title="FECHAR" onclick="location.reload();" style="width: auto;position: absolute;top: -18px;left: 145px;cursor:pointer;padding: 0.5%;color: red;font-weight: bolder;">X</small>'
   div.style.background = "#4267B2";
   div.style.display = "inline-block";
-  div.style.padding = "2%";
+  div.style.padding = "0.5%";
   div.style.position = "absolute";
   div.style.top = "340px";
   div.style.left = "940px";
@@ -3339,16 +3340,17 @@ function createView() {
 
 function addCheckBox() {
   try {
+    // Remove os checkbox para não duplicar
+    $('.fsl').find('.divDelete').remove();
+
     $(".fsl > a").each(function() {
       if (typeof $(this).attr("data-gt") != "undefined") {
         var atributos = JSON.parse($(this).attr("data-gt"));
         id = atributos.engagement['eng_tid'];
-        // console.log(id);
-        $(this).after('<div><input onclick="countSelecionados()" type="checkbox" id="' + id + '" class="ckDelete"></div>');
+        $(this).after('<div class="divDelete"><input onclick="countSelecionados()" type="checkbox" id="' + id + '" class="ckDelete"></div>');
       } else {
         var auxid = $(this).attr('ajaxify').replace("/ajax/friends/inactive/dialog?id=", "");
-        $(this).after('<div><input onclick="countSelecionados()" type="checkbox" id="' + auxid + '" class="ckDelete"> <small>Conta desativada</small> </div>');
-        console.log(auxid);
+        $(this).after('<div class="divDelete"><input onclick="countSelecionados()" type="checkbox" id="' + auxid + '" class="ckDelete" checked> <small style="background:red">Conta desativada</small> </div>');
       }
     });
   } catch (e) {
@@ -3358,6 +3360,7 @@ function addCheckBox() {
 
 createView();
 addCheckBox();
+countSelecionados();
 
 //Segue na tela
 $().ready(function() {
@@ -3368,5 +3371,8 @@ $().ready(function() {
       .animate({
         "marginTop": ($(window).scrollTop())
       }, "slow");
+
+    addCheckBox();
+    countSelecionados();
   });
 });
