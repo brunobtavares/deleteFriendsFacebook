@@ -3237,7 +3237,7 @@ function getIDs() {
 }
 
 function remover() {
-  //100022770581756
+
   $(".ckDelete").each(function() {
     if ($(this).is(':checked')) {
       var id = String($(this).attr('id'));
