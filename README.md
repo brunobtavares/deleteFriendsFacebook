@@ -7,5 +7,3 @@
 3. Aperte a tecla "F12" do teclado
 4. Quando abrir uma janela vá até a aba "CONSOLE"
 5. Cole o código copiado la e precione "ENTER"
-
-<h1>teste</h1>
