@@ -1,6 +1,5 @@
 ## Delete amigos indesejados do facebook de uma só vez!
 
-
 #MODO DE USAR:
 1. Copie o conteudo do arqivo "delete.js"
 2. Vá até o seu facebook na pagina de amigos
@@ -9,6 +8,8 @@
 5. Cole o código copiado la e precione "ENTER"
 
 -----------------------------------------------------------
+
+##Delete unwanted friends from facebook at once!
 
 #HOW TO USE:
 1. Copy the contents of the file "delete.js"
