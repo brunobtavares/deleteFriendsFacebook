@@ -9,7 +9,7 @@
 
 -----------------------------------------------------------
 
-##Delete unwanted friends from facebook at once!
+## Delete unwanted friends from facebook at once!
 
 #HOW TO USE:
 1. Copy the contents of the file "delete.js"
