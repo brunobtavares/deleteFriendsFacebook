@@ -1,3 +1,7 @@
+#Doesn't work in the new version of facebook
+
+-----------------------------------------------------------
+
 ## Delete amigos indesejados do facebook de uma só vez!
 
 #MODO DE USAR:
